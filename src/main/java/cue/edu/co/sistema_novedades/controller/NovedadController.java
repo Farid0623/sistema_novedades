@@ -48,10 +48,14 @@ public class NovedadController {
     }
 
     @GetMapping("/estudiante/{identificacionId}")
-    public List<Novedad> buscarPorEstudiante(@PathVariable String identificacionId) {
-        return novedadService.buscarPorEstudiante(identificacionId);
+    public ResponseEntity<?> buscarPorEstudiante(@PathVariable String identificacionId) {
+        try {
+            List<Novedad> novedades = novedadService.buscarPorEstudiante(identificacionId);
+            return ResponseEntity.ok(novedades);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
-
     @GetMapping("/tipo/{tipo}")
     public List<Novedad> listarPorTipo(@PathVariable String tipo) {
         return novedadService.listarPorTipo(tipo);

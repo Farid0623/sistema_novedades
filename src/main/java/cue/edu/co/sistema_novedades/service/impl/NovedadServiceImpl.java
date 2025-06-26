@@ -50,7 +50,11 @@ public class NovedadServiceImpl implements NovedadService {
 
     @Override
     public List<Novedad> buscarPorEstudiante(String identificacionId) {
-        return novedadRepository.findByIdentificacionId(identificacionId);
+        List<Novedad> novedades = novedadRepository.findByIdentificacionId(identificacionId);
+        if (novedades.isEmpty()) {
+            throw new IllegalArgumentException("No se encontraron novedades para el identificacionId: " + identificacionId);
+        }
+        return novedades;
     }
 
     @Override
