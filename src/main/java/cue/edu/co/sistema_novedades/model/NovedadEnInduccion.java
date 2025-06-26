@@ -1,4 +1,15 @@
 package cue.edu.co.sistema_novedades.model;
 
-public class NovedadEnInduccion {
+import java.time.LocalDateTime;
+
+public class NovedadEnInduccion extends Novedad {
+    public NovedadEnInduccion(String identificacionId, String nombre, String apellido, String programaFormacion, LocalDateTime fecha, String descripcion) {
+        super(identificacionId, nombre, apellido, programaFormacion, fecha, descripcion);
+        setTipo(getTipo());
+    }
+
+    @Override
+    public String getTipo() {
+        return "En Induccion";
+    }
 }
