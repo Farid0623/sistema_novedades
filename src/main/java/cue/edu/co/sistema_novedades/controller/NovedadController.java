@@ -1,9 +1,12 @@
 package cue.edu.co.sistema_novedades.controller;
 
-
+import cue.edu.co.sistema_novedades.dto.ActualizarRequest;
+import cue.edu.co.sistema_novedades.dto.ActualizarTipoRequest;
+import cue.edu.co.sistema_novedades.dto.NovedadRequest;
 import cue.edu.co.sistema_novedades.model.Novedad;
 import cue.edu.co.sistema_novedades.service.NovedadService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -21,16 +24,22 @@ public class NovedadController {
     }
 
     @PostMapping
-    public Novedad crearNovedad(@RequestBody NovedadRequest request) {
-        return novedadService.crearNovedad(
-                request.getTipo(),
-                request.getIdentificacionId(),
-                request.getNombre(),
-                request.getApellido(),
-                request.getProgramaFormacion(),
-                LocalDateTime.now(),
-                request.getDescripcion()
-        );
+    public ResponseEntity<?> crearNovedad(@RequestBody NovedadRequest request) {
+
+        try {
+            Novedad novedad = novedadService.crearNovedad(
+                    request.getTipo(),
+                    request.getIdentificacionId(),
+                    request.getNombre(),
+                    request.getApellido(),
+                    request.getProgramaFormacion(),
+                    LocalDateTime.now(),
+                    request.getDescripcion()
+            );
+            return ResponseEntity.ok(novedad);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     @GetMapping

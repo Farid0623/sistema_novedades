@@ -1,6 +1,5 @@
-package cue.edu.co.novedades.model;
+package cue.edu.co.sistema_novedades.model;
 
-import cue.edu.co.sistema_novedades.model.Novedad;
 
 import java.time.LocalDateTime;
 

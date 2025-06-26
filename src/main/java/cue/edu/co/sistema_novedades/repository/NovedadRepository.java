@@ -1,5 +1,6 @@
 package cue.edu.co.sistema_novedades.repository;
 
+
 import cue.edu.co.sistema_novedades.model.Novedad;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;

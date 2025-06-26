@@ -1,5 +1,6 @@
 package cue.edu.co.sistema_novedades.service;
 
+import cue.edu.co.sistema_novedades.dto.ActualizarRequest;
 import cue.edu.co.sistema_novedades.model.Novedad;
 import cue.edu.co.sistema_novedades.model.TipoNovedad;
 
@@ -18,6 +19,6 @@ public interface NovedadService {
     List<Novedad> listarPorTipo(String tipo);
     Novedad actualizarTipoNovedad(String identificacionId, TipoNovedad tipoActual, TipoNovedad tipoNuevo);
 
-    Novedad actualizarNovedad(String id, String descripcion);
+    Novedad actualizarNovedad(String id, ActualizarRequest request);
     void eliminarNovedad(String id);
 }
