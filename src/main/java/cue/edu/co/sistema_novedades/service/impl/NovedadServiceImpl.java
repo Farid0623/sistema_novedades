@@ -1,5 +1,11 @@
 package cue.edu.co.sistema_novedades.service.impl;
 
+import cue.edu.co.sistema_novedades.dto.ActualizarRequest;
+import cue.edu.co.sistema_novedades.factory.NovedadFactory;
+import cue.edu.co.sistema_novedades.model.Novedad;
+import cue.edu.co.sistema_novedades.model.TipoNovedad;
+import cue.edu.co.sistema_novedades.repository.NovedadRepository;
+import cue.edu.co.sistema_novedades.service.NovedadService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +26,12 @@ public class NovedadServiceImpl implements NovedadService {
     @Override
     public Novedad crearNovedad(TipoNovedad tipo, String identificacionId, String nombre, String apellido,
                                 String programaFormacion, LocalDateTime fecha, String descripcion) {
+
+        List<Novedad> existentes = novedadRepository.findByIdentificacionId(identificacionId);
+        if (!existentes.isEmpty()) {
+            throw new IllegalArgumentException("Ya existe una novedad para el identificacionId: " + identificacionId);
+        }
+
         Novedad novedad = NovedadFactory.crearNovedad(tipo, identificacionId, nombre, apellido,
                 programaFormacion, fecha, descripcion);
         return novedadRepository.save(novedad);
@@ -79,11 +91,27 @@ public class NovedadServiceImpl implements NovedadService {
     }
 
     @Override
-    public Novedad actualizarNovedad(String id, String descripcion) {
+    public Novedad actualizarNovedad(String id, ActualizarRequest request) {
         Optional<Novedad> optionalNovedad = novedadRepository.findById(id);
         if (optionalNovedad.isPresent()) {
             Novedad novedad = optionalNovedad.get();
-            novedad.setDescripcion(descripcion);
+
+            if (request.getIdentificacionId() != null) {
+                novedad.setIdentificacionId(request.getIdentificacionId());
+            }
+            if (request.getNombre() != null) {
+                novedad.setNombre(request.getNombre());
+            }
+            if (request.getApellido() != null) {
+                novedad.setApellido(request.getApellido());
+            }
+            if (request.getProgramaFormacion() != null) {
+                novedad.setProgramaFormacion(request.getProgramaFormacion());
+            }
+            if (request.getDescripcion() != null) {
+                novedad.setDescripcion(request.getDescripcion());
+            }
+
             return novedadRepository.save(novedad);
         }
         return null;
